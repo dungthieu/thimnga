@@ -1,28 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Sending Mail</title>
-<script src="https://smtpjs.com/v3/smtp.js"></script>
-<script type="text/javascript">
-	  function sendEmail() {
-        Email.send({
-            Host: "smtp.elasticemail.com",
-        Username : "thieutridung123@gmail.com",
-        Password : "7145764F0F7267243B8E1E48B89909745E41",
-        To : 'hvhust1998@gmail.com',
-        From : 'thieutridung123@gmail.com', 
-        Subject : "đơn đặt hàng giò chả : ",
-        Body : "Code: "
-        }).then(
-            message => alert("mail sent successfully")
-        );
-    }
-</script>
+    <title>Sending Mail</title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script type="text/javascript">
+        function sendEmail() {
+            let data = "Tên : " + " <br> SDT: " + "<br> Địa chỉ: " + "<br>Số lượng : " + " <br> Lời nhắn :  ";
+
+            Email.send({
+                Host: "smtp.elasticemail.com",
+                Username: "canikissyou869@gmail.com",
+                Password: "891470E47EE1F774F4A294FC63926BE61BBA",
+                To: 'hvhust1998@gmail.com',
+                From: 'canikissyou869@gmail.com',
+                Subject: "đơn đặt hàng giò chả : ",
+                Body: data
+            })
+                .then(function (message) {
+                    alert(message)
+                });
+            function showSuccessToast() {
+                toast({
+                    title: "Thành công!",
+                    message: "Bạn đã đăng ký đặt hàng thành công ",
+                    type: "success",
+                    duration: 5000
+                });
+            }
+            function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+                const main = document.getElementById("toast");
+                if (main) {
+                    const toast = document.createElement("div");
+
+                    // Auto remove toast
+                    const autoRemoveId = setTimeout(function () {
+                        main.removeChild(toast);
+                    }, duration + 1000);
+
+                    // Remove toast when clicked
+                    toast.onclick = function (e) {
+                        if (e.target.closest(".toast__close")) {
+                            main.removeChild(toast);
+                            clearTimeout(autoRemoveId);
+                        }
+                    };
+
+                    const icons = {
+                        success: "fas fa-check-circle",
+                        info: "fas fa-info-circle",
+                        warning: "fas fa-exclamation-circle",
+                        error: "fas fa-exclamation-circle"
+                    };
+                    const icon = icons[type];
+                    const delay = (duration / 1000).toFixed(2);
+
+                    toast.classList.add("toast", `toast--${type}`);
+                    toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+
+                    toast.innerHTML = `
+                    <div class="toast__icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                    main.appendChild(toast);
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>
     <button type="submit" onclick="sendEmail()">Submit</button>
+    <div id="toast"></div>
 
 
 </body>
+
 </html>
